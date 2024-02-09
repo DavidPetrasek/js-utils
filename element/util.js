@@ -1,5 +1,6 @@
-import {pause, time, cLog, isString, base64FromUrl} from '../misc';
-//import * as konstanty from '/p-system/jadro/modul/js/start/konstanty.js';
+import { base64FromUrl } from '../file';
+import { isString } from '../is';
+import {pause, time, cLog} from '../misc';
 
 
 export function getClosestParentByStyleProperty (el, property, propertyValue)
