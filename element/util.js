@@ -186,8 +186,6 @@ export function elemInsert (elements, referenceNode, after = false)
 	
 	if ( !lzeProchazetOpakovane(elements) ) {elements = [elements];}
 	
-	elements = elements.reverse();
-	
 	if (after) 	{var placement = referenceNode.nextSibling;}
 	else		{var placement = referenceNode;}
 	

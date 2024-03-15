@@ -113,7 +113,7 @@ export function flashMessage (zprava = '', trvani = 1500, cssClass = '')
 }
 
 export async function redirect (kam, afterMiliseconds = 0)
-{														//alert(G_URL_INDEX+kam); return;
+{														
 	await pause(afterMiliseconds);
 	
 	if (kam === '') //aktuální url
@@ -122,7 +122,7 @@ export async function redirect (kam, afterMiliseconds = 0)
 	}
 	else
 	{
-		location.href = APP_BASE_URL+kam;
+		location.href = kam;
 	}
 }
 
