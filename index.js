@@ -8,4 +8,6 @@ import * as arr from './array';
 import * as file from './file';
 import * as is from './is';
 
+import './style.css';
+
 export default {misc, symfony_misc, str, func, el, ajax, arr, file, is};

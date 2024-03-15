@@ -102,8 +102,8 @@ export function cErr(popis, hod = null, fce = null)
 
 export function flashMessage (zprava = '', trvani = 1500, cssClass = '')
 {
-	var elAttry = {role: 'alert', class: 'flash-message '+cssClass}; 
-	var el = elCreate ('p', elAttry, zprava);
+	var elAttry = {role: 'alert', class: 'flash_message '+cssClass}; 
+	var el = elCreate ('div', elAttry, zprava);
 	document.body.appendChild(el);
 	
 	var odpocet = setTimeout( ()=>
