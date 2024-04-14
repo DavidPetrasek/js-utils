@@ -128,15 +128,15 @@ export async function redirect (kam, afterMiliseconds = 0)
 
 export function pause (ms) { return new Promise(res => setTimeout(res, ms)); }
 
-export function time (format = 'sekundy') 
+export function timestamp (format = 'seconds') 
 {
-	if (format === 'sekundy')
+	if (format === 'seconds')
 	{
-		return Math.floor(new Date().getTime() / 1000);	
+		return Math.floor(Date.now() / 1000);	
 	}
-	if (format === 'milisekundy')
+	if (format === 'milliseconds')
 	{
-		return new Date().getTime();	
+		return Date.now();	
 	}
 }
 
