@@ -1,6 +1,6 @@
 import { base64FromUrl } from '../file';
 import { isString } from '../is';
-import {pause, time, cLog} from '../misc';
+import {pause, cLog} from '../misc';
 
 
 export function getClosestParentByStyleProperty (el, property, propertyValue)
