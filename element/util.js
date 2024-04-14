@@ -165,7 +165,7 @@ export function htmlToElements(html)
 {
     var template = document.createElement('template');
     template.innerHTML = html;
-    return template.content;
+    return template.content.childNodes;
 }
 
 /**
@@ -179,7 +179,7 @@ export function elemInsert (elements, referenceNode, after = false)
 	
 	if (isString(elements)) 
 	{
-		elements = htmlToElements(elements).childNodes; 		//cLog('elements', elements, elemInsert);
+		elements = htmlToElements(elements); 		//cLog('elements', elements, elemInsert);
 		
 		elements = Array.from(elements);
 	}
