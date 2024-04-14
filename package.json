@@ -1,6 +1,6 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Set of helper functions",
   "main": "index.js",
   "scripts": {
