@@ -13,7 +13,7 @@ export function isEmpty (val)
 
 export function isArrayStringEmpty (arr)
 {
-	return arr.length !== 0;
+	return arr.length === 0;
 }
 
 export function isObjectEmpty (obj)
