@@ -139,23 +139,6 @@ export function poziceEl (el) // pozice v rámci rodiče
 	return poz;
 }
 
-export function form_pridatData (form, data) 
-{
-    if (typeof form === 'string') 
-    {
-        form = document.querySelector(form);
-	}
-
-	Object.entries(data).forEach(entry => 
-	{
-  		const [key, value] = entry;
-  		
-		var inp = vytvorElem ('input', '', '', '', '', [], key, 'hidden', value);		
-
-        form.appendChild(inp);
-    });
-}
-
 export function odkaz (rel, popis)
 {    
     return '<a href="'+home+rel+'">'+popis+'</a>';
