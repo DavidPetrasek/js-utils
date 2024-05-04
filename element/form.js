@@ -44,11 +44,11 @@ export function vstupNastavitHodnotu (name, hod, viceHodIndex = null, rod = docu
 /**
  * 
  * @param Element parent 
- * @param bool state 
+ * @param bool state
  */
 export function formSetDisabledStateChildInputs (parent, state)
 {
-	parent.querySelectorAll('input, select, canvas').forEach( (i) =>
+	parent.querySelectorAll('input, select, canvas, textarea').forEach( (i) =>
 	{																					
 		if ( ("disabled" in i.dataset) ) 
 		{									
@@ -65,24 +65,7 @@ export function formSetDisabledStateChildInputs (parent, state)
 				i.removeAttribute('disabled');
 			}
 		}
-
-		if (state)
-		{
-			if (i.hasAttribute('required')) 
-			{
-				i.removeAttribute('required');
-				i.setAttribute('data-jsutils-form-required-backup', '');
-			}
-		}
-		else		
-		{
-			if (i.hasAttribute('data-jsutils-form-required-backup')) 
-			{
-				i.removeAttribute('data-jsutils-form-required-backup');
-				i.setAttribute('required', '');
-			}
-		}
-	} );
+	});
 }
 
 export function getFileNames(fileInp)
