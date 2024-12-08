@@ -25,6 +25,7 @@ export function getClosestParentByStyleProperty (el, property, propertyValue)
   return false;
 }
 
+// https://stackoverflow.com/a/442474/10977967
 export function getOffset (el)  // Doesn't work when scrollTop was altered
 {
     var _x = 0;
