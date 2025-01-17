@@ -145,11 +145,13 @@ export function odkaz (rel, popis)
     return '<a href="'+home+rel+'">'+popis+'</a>';
 }
 
-export function htmlToElements(html) 
+export function htmlToElements(html, elementNodesOnly = true) 
 {
     var template = document.createElement('template');
     template.innerHTML = html;
-    return template.content;
+
+	if (elementNodesOnly) {return template.content.children;}
+	else 				  {return template.content.childNodes;}
 }
 
 /**
@@ -163,7 +165,7 @@ export function elemInsert (elements, referenceNode, after = false)
 	
 	if (isString(elements)) 
 	{
-		elements = htmlToElements(elements).childNodes; 		//cLog('elements', elements, elemInsert);
+		elements = htmlToElements(elements, false); 		//cLog('elements', elements, elemInsert);
 		
 		elements = Array.from(elements);
 	}
