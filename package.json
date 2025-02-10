@@ -1,9 +1,16 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "1.0.19",
+  "version": "1.1.0",
   "description": "Set of helper functions",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./dist/*"
+  },
   "files": [
     "dist"
   ],
