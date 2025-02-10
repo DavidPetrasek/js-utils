@@ -1,26 +1,36 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Set of helper functions",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidPetrasek/js-utils.git"
+  },
+
   "exports": {
-    ".": {
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./*": "./dist/*"
+    "./misc": "./dist/misc.js",
+    "./symfony_misc": "./dist/symfony/misc.js",
+    "./str": "./dist/string.js",
+    "./func": "./dist/function.js",
+    "./el": "./dist/element/util.js",
+    "./form": "./dist/element/form.js",
+    "./arr": "./dist/array.js",
+    "./file": "./dist/file.js",
+    "./is": "./dist/is.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "vitest --ui"
+    "test": "vitest --ui",
+    "build": "tsup"
   },
   "author": "David Petrásek",
   "license": "ISC",
   "devDependencies": {
     "@vitest/ui": "^3.0.5",
+    "ts-migrate": "^0.1.35",
+    "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
   }
