@@ -1,9 +1,12 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Set of helper functions",
   "main": "src/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+  "./*": "./dist/*"
+},
   "files": [
     "dist",
     "src"
