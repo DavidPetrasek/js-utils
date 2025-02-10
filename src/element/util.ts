@@ -3,7 +3,7 @@ import { isString } from '../is';
 import {pause, cLog} from '../misc';
 
 
-export function getClosestParentByStyleProperty (el, property, propertyValue)
+export function getClosestParentByStyleProperty (el: any, property: any, propertyValue: any)
 {
   var rod = el.parentNode;
   
@@ -26,6 +26,7 @@ export function getClosestParentByStyleProperty (el, property, propertyValue)
 }
 
 // https://stackoverflow.com/a/442474/10977967
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function getOffset (el)  // Doesn't work when scrollTop was altered
 {
     var _x = 0;
@@ -38,32 +39,40 @@ export function getOffset (el)  // Doesn't work when scrollTop was altered
     return { top: _y, left: _x };
 }
 
+// @ts-expect-error TS(7006): Parameter 'urlRel' implicitly has an 'any' type.
 export async function predNacistObrazek (urlRel)
 {	
 	var session = sessionStorage.getItem('predNacistObrazek');				//cLog('session', session, predNacistObrazek);
+// @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
 	session = JSON.parse(session);											//cLog('session', session, predNacistObrazek);
 	if (!session) 
 	{
+// @ts-expect-error TS(2322): Type '{}' is not assignable to type 'string'.
 		session = {};
 	} 
 	
+// @ts-expect-error TS(2531): Object is possibly 'null'.
 	if (!session.hasOwnProperty(urlRel)) 
 	{
+// @ts-expect-error TS(2304): Cannot find name 'konstanty'.
 		var imgBase64 = await base64FromUrl(konstanty.URL_SABLONA+urlRel);
 		
 //		var img = new Image();
 //		img.src = imgBase64;
 //		document.body.appendChild(img);
 		
+// @ts-expect-error TS(2531): Object is possibly 'null'.
 		session[urlRel] = imgBase64;								//cLog('session - přidat nový obrázek', session, predNacistObrazek);
 		
 		sessionStorage.setItem('predNacistObrazek', JSON.stringify(session));
 	}
 }
 
+// @ts-expect-error TS(7006): Parameter 'urlRel' implicitly has an 'any' type.
 export function dejPredNactenyObrazek (urlRel)
 {	
 	var session = sessionStorage.getItem('predNacistObrazek');				//cLog('session', session, predNacistObrazek);
+// @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
 	session = JSON.parse(session);											//cLog('session', session, predNacistObrazek);
 	if (!session) {return;} 
 	if (!session.hasOwnProperty(urlRel)) {return;}
@@ -91,10 +100,12 @@ export function dejPredNactenyObrazek (urlRel)
 //}
 
 
+// @ts-expect-error TS(7006): Parameter 'tag' implicitly has an 'any' type.
 export function elCreate(tag, attry = {}, inHTML = '')
 {
 	var el = document.createElement(tag);
 													//cLog('attry', attry, vytvorElem);
+// @ts-expect-error TS(2550): Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
 	for (let [nazev, hod] of Object.entries(attry)) 
 	{												//cLog('nazev', nazev, vytvorElem); cLog('hod', hod, vytvorElem);
 		el.setAttribute(nazev, hod);
@@ -105,6 +116,7 @@ export function elCreate(tag, attry = {}, inHTML = '')
 	return el;
 }
 
+// @ts-expect-error TS(7006): Parameter 'obj' implicitly has an 'any' type.
 export function lzeProchazetOpakovane(obj) {
   // checks for null and undefined
   if (obj == null) {
@@ -113,6 +125,7 @@ export function lzeProchazetOpakovane(obj) {
   return typeof obj[Symbol.iterator] === 'function';
 }
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function elPreteka (el, toleranceH = 0) 
 {
 //	console.log ('elPreteka :: el', el);
@@ -131,8 +144,10 @@ export function elPreteka (el, toleranceH = 0)
 	}
 }
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function reflow (el) {var oh = el.offsetHeight;}
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function poziceEl (el) // pozice v rámci rodiče
 {
 	var poz = 0;
@@ -140,11 +155,14 @@ export function poziceEl (el) // pozice v rámci rodiče
 	return poz;
 }
 
+// @ts-expect-error TS(7006): Parameter 'rel' implicitly has an 'any' type.
 export function odkaz (rel, popis)
 {    
+    // @ts-expect-error TS(2304): Cannot find name 'home'.
     return '<a href="'+home+rel+'">'+popis+'</a>';
 }
 
+// @ts-expect-error TS(7006): Parameter 'html' implicitly has an 'any' type.
 export function htmlToElements(html, elementNodesOnly = true) 
 {
     var template = document.createElement('template');
@@ -159,6 +177,7 @@ export function htmlToElements(html, elementNodesOnly = true)
  * @param {(string|Node)} referenceNode
  * @param {bool} after
  */
+// @ts-expect-error TS(7006): Parameter 'elements' implicitly has an 'any' type.
 export function elemInsert (elements, referenceNode, after = false) 
 {
 	if (isString(referenceNode)) {referenceNode = document.querySelector (referenceNode);}
@@ -175,12 +194,14 @@ export function elemInsert (elements, referenceNode, after = false)
 	if (after) 	{var placement = referenceNode.nextSibling;}
 	else		{var placement = referenceNode;}
 	
+// @ts-expect-error TS(7006): Parameter 'n' implicitly has an 'any' type.
 	elements.forEach( (n) =>
 	{
 		referenceNode.parentNode.insertBefore(n, placement);
 	});
 }
 
+// @ts-expect-error TS(7006): Parameter 'node1' implicitly has an 'any' type.
 export function zamenitPrvky (node1, node2) 
 {
     const afterNode2 = node2.nextElementSibling;
@@ -189,6 +210,7 @@ export function zamenitPrvky (node1, node2)
     parent.insertBefore(node1, afterNode2);
 }
 
+// @ts-expect-error TS(7006): Parameter 'prvek' implicitly has an 'any' type.
 export function nahraditPrvek (prvek, nahrada)
 {										
 	if (isString(prvek)) {prvek = document.querySelector (prvek);}
@@ -210,6 +232,7 @@ export function nahraditPrvek (prvek, nahrada)
 	}
 	else
 	{
+// @ts-expect-error TS(2304): Cannot find name 'insertBefore'.
 		insertBefore(nahrada, prvek.parentNode);
 	}
 	
@@ -217,6 +240,7 @@ export function nahraditPrvek (prvek, nahrada)
 }
 
 // Pokud nebude fungovat, použít awaitScroll ze Scrollbar.js
+// @ts-expect-error TS(7006): Parameter 'elem' implicitly has an 'any' type.
 export function awaitScroll (elem, targetPosition, behavior) 
 {																	
 //	cLog('targetPosition', targetPosition, awaitScroll);
@@ -231,6 +255,7 @@ export function awaitScroll (elem, targetPosition, behavior)
 
 	return new Promise( (resolve, reject) => 
 	{
+// @ts-expect-error TS(7034): Variable 'timeoutId' implicitly has type 'any' in ... Remove this comment to see the full error message
 		let timeoutId;
 		
 	    const failed = setTimeout(() => 
@@ -244,12 +269,15 @@ export function awaitScroll (elem, targetPosition, behavior)
 //			cLog('awaitScroll :: finished');
     		elem.removeEventListener("scroll", scrollHandler);
 	      	clearTimeout(failed);
+// @ts-expect-error TS(7005): Variable 'timeoutId' implicitly has an 'any' type.
 	      	clearTimeout(timeoutId);
+// @ts-expect-error TS(2794): Expected 1 arguments, but got 0. Did you forget to... Remove this comment to see the full error message
 	      	resolve();
   		};
 		
 	    const scrollHandler = () => 
 	    {
+// @ts-expect-error TS(7005): Variable 'timeoutId' implicitly has an 'any' type.
 			clearTimeout(timeoutId);
 				
 //			cLog('elem.scrollTop', elem.scrollTop, awaitScroll);	
@@ -271,6 +299,7 @@ export function awaitScroll (elem, targetPosition, behavior)
 	});
 }
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function rozmerySkryteho (el, rod)
 {												//console.log(rod);		
 //	var cln_doc = el.cloneNode(true);
@@ -342,11 +371,13 @@ export function rozmerySkryteho (el, rod)
 	return {vyska: vyska_rod, sirka: sirka_rod};
 }
 
+// @ts-expect-error TS(7006): Parameter 'element' implicitly has an 'any' type.
 export function isElement(element) 
 {
     return element instanceof Element || element instanceof HTMLDocument;  
 }
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function isVisible (el, fully = false) //, posun = 0		// alternativou je IntersectionObserver
 {
 	var rect = el.getBoundingClientRect(), 
@@ -433,6 +464,7 @@ export function isVisible (el, fully = false) //, posun = 0		// alternativou je 
 	return true
 }
 
+// @ts-expect-error TS(7006): Parameter 'prvky' implicitly has an 'any' type.
 export function cssSelektorPrvky (prvky)
 {
 	if ( !lzeProchazetOpakovane(prvky) ) {prvky = [prvky];}		//cLog('prvky', prvky, cssSelektorPrvky);
@@ -456,6 +488,7 @@ export function cssSelektorPrvky (prvky)
 	return {obj: obj, str: str};
 }
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function cssSelektorPrvek (el)
 {										//cLog('el', el, cssSelektorPrvek);	cLog('el.dataset', el.dataset, cssSelektorPrvek);
 	var obj = {atry: {}};									
@@ -473,6 +506,7 @@ export function cssSelektorPrvek (el)
 	
 			var dataAttrHod = el.dataset[attr]; 
 			
+// @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
 			obj.atry['data-'+dataAttr_dashed] = dataAttrHod;
 						
 			str += '[data-'+dataAttr_dashed+'="'+dataAttrHod+'"]';

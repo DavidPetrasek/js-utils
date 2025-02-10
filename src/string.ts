@@ -1,6 +1,6 @@
 
 
-export function stringTruncate (input, length) 
+export function stringTruncate (input: any, length: any) 
 {
    if (input.length > length) 
    {
@@ -9,7 +9,7 @@ export function stringTruncate (input, length)
    return input;
 }
 
-export function stringToBool (stringValue)
+export function stringToBool (stringValue: any)
 {
 	switch(stringValue?.toLowerCase()?.trim()){
         case "true": 
@@ -33,6 +33,7 @@ export function stringToBool (stringValue)
  * Formats a phone number as the user types it. 
  * Inserts spaces after the 3rd and 7th digits.
 */
+// @ts-expect-error TS(7006): Parameter 'e' implicitly has an 'any' type.
 export function formatTelephoneRealTime (e) 
 {
 	if (e.keyCode != 8 && e.keyCode != 46) // if the key pressed was a delete or backspace

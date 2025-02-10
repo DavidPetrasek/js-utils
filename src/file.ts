@@ -1,4 +1,4 @@
-export async function pripravSoubory (file, zaNazev = '')
+export async function pripravSoubory (file: any, zaNazev = '')
 {												//cLog('file', file, pripravSoubory);
 	var data = [];
 		
@@ -20,6 +20,7 @@ export async function pripravSoubory (file, zaNazev = '')
 	return data;
 }
 
+// @ts-expect-error TS(7006): Parameter 'file' implicitly has an 'any' type.
 const toBase64 = file => new Promise((resolve, reject) =>
 {
     const reader = new FileReader();
@@ -28,6 +29,7 @@ const toBase64 = file => new Promise((resolve, reject) =>
     reader.onerror = error => reject(error);
 });
 
+// @ts-expect-error TS(7006): Parameter 'url' implicitly has an 'any' type.
 export const base64FromUrl = async (url) => 
 {
   const data = await fetch(url);					//cLog('data', data, base64FromUrl);
@@ -46,6 +48,7 @@ export const base64FromUrl = async (url) =>
   });
 }
 
+// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
 export async function downloadStream (data, headers)
 {																
     var contentDisposition = headers['content-disposition'];				//cLog('contentDisposition', contentDisposition, downloadStream);
@@ -73,6 +76,7 @@ export async function downloadStream (data, headers)
     window.URL.revokeObjectURL(blobUrl);
 }
 
+// @ts-expect-error TS(7006): Parameter 'contentDisposition' implicitly has an '... Remove this comment to see the full error message
 function contentDispositionGetFileName (contentDisposition)
 {
     var filename = '';
@@ -90,11 +94,14 @@ function contentDispositionGetFileName (contentDisposition)
     return filename;
 }
 
+// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
 export function print (data, dataType, outputType)
 {		
 	if 		(dataType === 'base64') {var content = base64ToArrayBuffer(data);}
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 	else if (dataType  === 'blob')   {var content = data;}
 	
+ // @ts-expect-error TS(2454): Variable 'content' is used before being assigned.
  	const blob = new Blob([content], { type: outputType });
  	const url = window.URL.createObjectURL(blob);			//cLog ('url', url, vytisknout_);
 	
@@ -104,6 +111,7 @@ export function print (data, dataType, outputType)
 	});
 }
 
+// @ts-expect-error TS(7006): Parameter 'cestaRel' implicitly has an 'any' type.
 function print_ (cestaRel) // relativní cesta nebo url objektu
 {		
 	return new Promise( (resolve) =>
@@ -115,6 +123,7 @@ function print_ (cestaRel) // relativní cesta nebo url objektu
 	    pdfFrame.style.display = 'none';
 	    pdfFrame.onload = ( () =>
 	    { 
+// @ts-expect-error TS(2531): Object is possibly 'null'.
 			void pdfFrame.contentWindow.print();	//cLog ('vytisknuto', '', vytisknout);
 			resolve(true);
 		});
@@ -122,6 +131,7 @@ function print_ (cestaRel) // relativní cesta nebo url objektu
     });   
 }
 
+// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
 export function base64ToArrayBuffer (data)
 {
     const bString = atob(data);
@@ -143,19 +153,23 @@ export var priponaMimeTyp =
 	'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 };
 
+// @ts-expect-error TS(7006): Parameter 'pripona' implicitly has an 'any' type.
 export function mimeTypPodlePripony (pripona)
 {
 	if (priponaMimeTyp.hasOwnProperty(pripona)) 
 	{
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     	return priponaMimeTyp[pripona];
     }
     else
     {
+// @ts-expect-error TS(2304): Cannot find name 'cLog'.
 		cLog('mimeTyp není definován');
 		return false;	
 	}
 }
 
+// @ts-expect-error TS(7006): Parameter 'url' implicitly has an 'any' type.
 export async function souborExistuje (url) 
 {	
 	return (await fetch(url, {method: "HEAD"})).ok;

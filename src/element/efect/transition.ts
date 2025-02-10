@@ -1,7 +1,8 @@
+// @ts-expect-error TS(2307): Cannot find module '../fce.js' or its correspondin... Remove this comment to see the full error message
 import {pauza} from '../fce.js';
 
 
-export function prehratPrechody (el, prechody)
+export function prehratPrechody (el: any, prechody: any)
 {
 	return new Promise(resolve =>
 	{
@@ -33,6 +34,7 @@ export function prehratPrechody (el, prechody)
 }
 
 
+// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
 export function zmenitPruhlednost(el, smer, opacity)
 {
 	return new Promise(resolve =>
