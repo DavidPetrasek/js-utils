@@ -6,7 +6,7 @@
 
 Handy functions for JS development.
 
-Supports CJS, ES6 and TypeScript.
+Supports CJS, ESM and TypeScript.
 
 ## Installation
 
