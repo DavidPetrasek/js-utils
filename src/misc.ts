@@ -1,4 +1,3 @@
-import { elCreate } from './element/util';
 
 
 export function emToPx (ems : number) : number
