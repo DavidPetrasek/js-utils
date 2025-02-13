@@ -1,45 +1,37 @@
-export function isStrictMode ()
+export function isStrictMode () : boolean
 {
-// @ts-expect-error TS(2683): 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-	var strict = (function() { return !this; })();
-
-	if (strict) {console.log ( "strict mode enabled, strict is " + strict );} 
-	else 		{console.log ( "strict mode not defined, strict is " + strict );}
+	return (function(this: unknown) { return !this; })();
 }
 
-// @ts-expect-error TS(7006): Parameter 'val' implicitly has an 'any' type.
-export function isEmpty (val)
+export function isEmpty (val : []|string|object) : boolean
 {
-	return isArrayStringEmpty(val) || isObjectEmpty (val);
+	if (val instanceof Object) 	{return isObjectEmpty(val);}
+	else 						{return isArrayStringEmpty(val);}
 }
 
-// @ts-expect-error TS(7006): Parameter 'arr' implicitly has an 'any' type.
-export function isArrayStringEmpty (arr)
+export function isArrayStringEmpty (arr : []|string) : boolean
 {
 	return arr.length === 0;
 }
 
-// @ts-expect-error TS(7006): Parameter 'obj' implicitly has an 'any' type.
-export function isObjectEmpty (obj)
+export function isObjectEmpty (obj : object) : boolean
 {
 	return obj
 		&& Object.keys(obj).length === 0
 		&& Object.getPrototypeOf(obj) === Object.prototype;
 }
 
-// @ts-expect-error TS(7006): Parameter 'el' implicitly has an 'any' type.
-export function isIterable (el)
+export function isIterable (el : unknown) : boolean
 {
   return Symbol.iterator in Object(el);
 }
 
-// @ts-expect-error TS(7006): Parameter 'myVar' implicitly has an 'any' type.
-export function isString (myVar)
+export function isString (myVar : unknown) : boolean
 {
   return (typeof myVar === 'string' || myVar instanceof String);
 }
 
-export function isTouchDevice ()
+export function isTouchDevice () : boolean
 {
 	return window.matchMedia("(pointer: coarse)").matches;
 }

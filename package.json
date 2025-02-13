@@ -1,32 +1,110 @@
 {
   "name": "@dpsys/js-utils",
   "version": "2.0.0",
-  "description": "Set of helper functions",
+  "description": "Handy functions for JS development",
+  "author": "David Petrásek",
+  "license": "ISC",
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DavidPetrasek/js-utils.git"
   },
+  "bugs": {
+    "url": "https://github.com/DavidPetrasek/js-utils/issues"
+  },
+
 
   "exports": {
-    "./misc": "./dist/misc.js",
-    "./symfony_misc": "./dist/symfony/misc.js",
-    "./str": "./dist/string.js",
-    "./func": "./dist/function.js",
-    "./el": "./dist/element/util.js",
-    "./form": "./dist/element/form.js",
-    "./arr": "./dist/array.js",
-    "./file": "./dist/file.js",
-    "./is": "./dist/is.js"
+    "./form": {
+      "import": {
+        "types": "./dist/element/form.d.mts",
+        "default": "./dist/element/form.mjs"
+      },
+      "require": {
+        "types": "./dist/element/form.d.ts",
+        "default": "./dist/element/form.js"
+      }
+    },
+    "./el": {
+      "import": {
+        "types": "./dist/element/util.d.mts",
+        "default": "./dist/element/util.mjs"
+      },
+      "require": {
+        "types": "./dist/element/util.d.ts",
+        "default": "./dist/element/util.js"
+      }
+    },
+    "./arr": {
+      "import": {
+        "types": "./dist/array.d.mts",
+        "default": "./dist/array.mjs"
+      },
+      "require": {
+        "types": "./dist/array.d.ts",
+        "default": "./dist/array.js"
+      }
+    },
+    "./file": {
+      "import": {
+        "types": "./dist/file.d.mts",
+        "default": "./dist/file.mjs"
+      },
+      "require": {
+        "types": "./dist/file.d.ts",
+        "default": "./dist/file.js"
+      }
+    },
+    "./func": {
+      "import": {
+        "types": "./dist/function.d.mts",
+        "default": "./dist/function.mjs"
+      },
+      "require": {
+        "types": "./dist/function.d.ts",
+        "default": "./dist/function.js"
+      }
+    },
+    "./is": {
+      "import": {
+        "types": "./dist/is.d.mts",
+        "default": "./dist/is.mjs"
+      },
+      "require": {
+        "types": "./dist/is.d.ts",
+        "default": "./dist/is.js"
+      }
+    },
+    "./misc": {
+      "import": {
+        "types": "./dist/misc.d.mts",
+        "default": "./dist/misc.mjs"
+      },
+      "require": {
+        "types": "./dist/misc.d.ts",
+        "default": "./dist/misc.js"
+      }
+    },
+    "./str": {
+      "import": {
+        "types": "./dist/string.d.mts",
+        "default": "./dist/string.mjs"
+      },
+      "require": {
+        "types": "./dist/string.d.ts",
+        "default": "./dist/string.js"
+      }
+    }
   },
   "files": [
     "dist"
   ],
+  
   "scripts": {
     "test": "vitest --ui",
     "build": "tsup"
-  },
-  "author": "David Petrásek",
-  "license": "ISC",
+  },  
+
   "devDependencies": {
     "@vitest/ui": "^3.0.5",
     "ts-migrate": "^0.1.35",

@@ -1,73 +1,52 @@
-export async function pripravSoubory (file: any, zaNazev = '')
-{												//cLog('file', file, pripravSoubory);
-	var data = [];
-		
-	for (let f=0; f < file.files.length ; f++)
-	{												//console.log(file.files[f]);
-		var nazev = file.files[f].name.split('\\').pop();
-		var pripona = nazev.split('.').pop();
-		var soubor =
-		{
-			nazev: nazev + zaNazev,
-			pripona: pripona,
-			base64: await toBase64(file.files[f])
-		}
-//		console.log(soubor);
-	
-		data.push(soubor); //console.log(data);
-	}
 
-	return data;
+export function toBase64 (file : Blob) : Promise<string>
+{
+    return new Promise((resolve, reject) =>
+    {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => 
+            {
+                if (typeof reader.result === 'string')  {resolve(reader.result);}
+                else                                    {resolve('');}
+            }
+        reader.onerror = error => reject(error);
+    })
 }
 
-// @ts-expect-error TS(7006): Parameter 'file' implicitly has an 'any' type.
-const toBase64 = file => new Promise((resolve, reject) =>
+export const base64FromUrl = async (url : string) : Promise<string> => 
 {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-});
-
-// @ts-expect-error TS(7006): Parameter 'url' implicitly has an 'any' type.
-export const base64FromUrl = async (url) => 
-{
-  const data = await fetch(url);					//cLog('data', data, base64FromUrl);
+  const data = await fetch(url);
   const blob = await data.blob();
-//  const blob = new Blob([data], {type: 'image/gif'});
   
   return new Promise((resolve) => 
   {
     const reader = new FileReader();
     reader.readAsDataURL(blob); 
-    reader.onloadend = () => {
-    var base64data = reader.result; 
-    base64data = base64data;  //.split(',')[1]
-      resolve(base64data);
+    reader.onloadend = () => 
+    {
+        var base64data = reader.result;
+        if (typeof base64data === 'string') {resolve(base64data);}
+        else                                {resolve('');}
     }
   });
 }
 
-// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
-export async function downloadStream (data, headers)
+export async function downloadStream (data : string, headers : Headers) : Promise<void>
 {																
-    var contentDisposition = headers['content-disposition'];				//cLog('contentDisposition', contentDisposition, downloadStream);
-//    var matches = /"([^"]*)"/.exec(contentDisposition);						cLog('matches', matches, downloadStream);
-//    var filename =  matches[1];												cLog('filename', filename, downloadStream);
-	var filename = contentDispositionGetFileName (contentDisposition);
-//    var pripona = filename.split('.').pop();
-    var mimeType = headers['content-type'];
+    var contentDisposition = headers.get('content-disposition');
+	var filename = contentDispositionGetFileName(contentDisposition ?? '');
+    var mimeType = headers.get('content-type');
 	
-	// vytvořit odkaz
-//	const content = base64ToArrayBuffer(blob_base64);
-	var blob = new Blob([data], { type: mimeType });
+	// Create link
+	var blob = new Blob([data], { type: mimeType ?? '' });
 	
     var link = document.createElement('a');
     const blobUrl = window.URL.createObjectURL(blob);
     link.href = blobUrl;
     link.download = filename;
 
-	// stáhnout
+	// Download
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -76,15 +55,14 @@ export async function downloadStream (data, headers)
     window.URL.revokeObjectURL(blobUrl);
 }
 
-// @ts-expect-error TS(7006): Parameter 'contentDisposition' implicitly has an '... Remove this comment to see the full error message
-function contentDispositionGetFileName (contentDisposition)
+function contentDispositionGetFileName (contentDisposition : string) : string
 {
     var filename = '';
 
     if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) 
     {
         var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-        var matches = filenameRegex.exec(contentDisposition);	//cLog('matches', matches, contentDispositionGetFileName);
+        var matches = filenameRegex.exec(contentDisposition);
         if (matches != null && matches[1]) 
         { 
           filename = matches[1].replace(/['"]/g, '');
@@ -94,45 +72,37 @@ function contentDispositionGetFileName (contentDisposition)
     return filename;
 }
 
-// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
-export function print (data, dataType, outputType)
+export function print (data : string, dataType : string, outputType : string) : void
 {		
-	if 		(dataType === 'base64') {var content = base64ToArrayBuffer(data);}
-// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
-	else if (dataType  === 'blob')   {var content = data;}
+    var content : Uint8Array|string = '';
+	if 		(dataType === 'base64') {content = base64ToArrayBuffer(data);}
+	else if (dataType  === 'blob')   {content = data;}
 	
- // @ts-expect-error TS(2454): Variable 'content' is used before being assigned.
  	const blob = new Blob([content], { type: outputType });
- 	const url = window.URL.createObjectURL(blob);			//cLog ('url', url, vytisknout_);
+ 	const url = window.URL.createObjectURL(blob);
 	
 	print_(url).then(()=>
 	{
-		window.URL.revokeObjectURL(url);	//cLog ('revokeObjectURL', '', vytisknout_);
+		window.URL.revokeObjectURL(url);
 	});
 }
 
-// @ts-expect-error TS(7006): Parameter 'cestaRel' implicitly has an 'any' type.
-function print_ (cestaRel) // relativní cesta nebo url objektu
+function print_ (relativeUrl : string) : Promise<boolean>
 {		
 	return new Promise( (resolve) =>
 	{
-								
-	//	var w = window.open(G_URL_INDEX+cestaRel);		cLog ('w', w, vytisknout);
-	//	w.print();
 		let pdfFrame = document.body.appendChild(document.createElement('iframe'));
 	    pdfFrame.style.display = 'none';
 	    pdfFrame.onload = ( () =>
-	    { 
-// @ts-expect-error TS(2531): Object is possibly 'null'.
-			void pdfFrame.contentWindow.print();	//cLog ('vytisknuto', '', vytisknout);
+	    {
+			void pdfFrame.contentWindow?.print();
 			resolve(true);
 		});
-	    pdfFrame.src = cestaRel; 
+	    pdfFrame.src = relativeUrl; 
     });   
 }
 
-// @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
-export function base64ToArrayBuffer (data)
+export function base64ToArrayBuffer (data : string) : Uint8Array
 {
     const bString = atob(data);
     const bLength = bString.length;
@@ -144,66 +114,7 @@ export function base64ToArrayBuffer (data)
     return bytes;
 }
 
-export var priponaMimeTyp = 
-{
-	'jpg': 'image/jpeg',
-	'jpeg': 'image/jpeg',
-	'png': 'image/png',
-	'pdf': 'application/pdf',
-	'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-};
-
-// @ts-expect-error TS(7006): Parameter 'pripona' implicitly has an 'any' type.
-export function mimeTypPodlePripony (pripona)
-{
-	if (priponaMimeTyp.hasOwnProperty(pripona)) 
-	{
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-    	return priponaMimeTyp[pripona];
-    }
-    else
-    {
-// @ts-expect-error TS(2304): Cannot find name 'cLog'.
-		cLog('mimeTyp není definován');
-		return false;	
-	}
-}
-
-// @ts-expect-error TS(7006): Parameter 'url' implicitly has an 'any' type.
-export async function souborExistuje (url) 
+export async function fileExists (url : string) : Promise<boolean>
 {	
 	return (await fetch(url, {method: "HEAD"})).ok;
-	
-//	return new Promise( async (resolve) =>
-//	{
-//		try 
-//		{
-//														//cLog('souborExistuje ??', null, souborExistuje);
-//        	var r = await fetch(url, {method: "HEAD"});	//cLog('r', r, souborExistuje); 
-//        	if (r.ok) 	{resolve(true);}
-//        	else		{resolve(false);}
-//	    } 
-//	    catch(err) 
-//	    {
-////			cLog('souborn neexistuje', err, souborExistuje);
-//			resolve(false);
-//	    }
-//	})
 }
-
-//export function souborExistuje(url)
-//{
-//    return new Promise( (resolve) => 
-//    {
-//        var http = new XMLHttpRequest();
-//        http.open('HEAD', url);
-//        http.onreadystatechange = () =>
-//        {
-//            if (http.readyState === 4) 
-//            {
-//                resolve(http.status === 200);
-//            }
-//        };
-//        http.send();
-//    });
-//}

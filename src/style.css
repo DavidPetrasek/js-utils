@@ -1,7 +1,0 @@
-/* FLASH MESSAGE */
-/* ------------- */
-.flash_message
-{
-	position: fixed; z-index: 100;
-	left: 50%; top: 30vh; transform: translateX(-50%);
-}
