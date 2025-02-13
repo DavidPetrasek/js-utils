@@ -1,17 +1,17 @@
 
 
-export function stringTruncate (input: string, length: number, ellipsis : string = '...') : string
+export function stringTruncate (str: string, length: number, ellipsis : string = '...') : string
 {
-   if (input.length > length) 
+   if (str.length > length) 
    {
-      return input.substring(0, length) + ellipsis;
+      return str.substring(0, length) + ellipsis;
    }
-   return input;
+   return str;
 }
 
-export function stringToBool (stringValue: string) : boolean
+export function stringToBool (str: string) : boolean
 {
-	switch(stringValue?.toLowerCase()?.trim()){
+	switch(str?.toLowerCase()?.trim()){
         case "true": 
         case "yes": 
         case "1": 
@@ -25,6 +25,6 @@ export function stringToBool (stringValue: string) : boolean
           return false;
 
         default: 
-          return JSON.parse(stringValue);
+          return JSON.parse(str);
     }
 }

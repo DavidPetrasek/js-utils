@@ -21,14 +21,14 @@ export function isObjectEmpty (obj : object) : boolean
 		&& Object.getPrototypeOf(obj) === Object.prototype;
 }
 
-export function isIterable (el : unknown) : boolean
+export function isIterable (val : unknown) : boolean
 {
-  return Symbol.iterator in Object(el);
+  return Symbol.iterator in Object(val);
 }
 
-export function isString (myVar : unknown) : boolean
+export function isString (val : unknown) : boolean
 {
-  return (typeof myVar === 'string' || myVar instanceof String);
+  return (typeof val === 'string' || val instanceof String);
 }
 
 export function isTouchDevice () : boolean

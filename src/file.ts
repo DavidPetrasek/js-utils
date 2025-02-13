@@ -1,35 +1,18 @@
 
-export function toBase64 (file : Blob) : Promise<string>
+export function blobToBase64 (blob : Blob) : Promise<string>
 {
     return new Promise((resolve, reject) =>
     {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(blob);
         reader.onload = () => 
             {
-                if (typeof reader.result === 'string')  {resolve(reader.result);}
-                else                                    {resolve('');}
+                var base64data = reader.result;
+                if (typeof base64data === 'string') {resolve(base64data);}
+                else                                {resolve('');}
             }
         reader.onerror = error => reject(error);
     })
-}
-
-export const base64FromUrl = async (url : string) : Promise<string> => 
-{
-  const data = await fetch(url);
-  const blob = await data.blob();
-  
-  return new Promise((resolve) => 
-  {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob); 
-    reader.onloadend = () => 
-    {
-        var base64data = reader.result;
-        if (typeof base64data === 'string') {resolve(base64data);}
-        else                                {resolve('');}
-    }
-  });
 }
 
 export async function downloadStream (data : string, headers : Headers) : Promise<void>
@@ -72,13 +55,13 @@ function contentDispositionGetFileName (contentDisposition : string) : string
     return filename;
 }
 
-export function print (data : string, dataType : string, outputType : string) : void
+export function print (data : string, dataType : 'base64'|'blob', mimeType : string = '') : void
 {		
     var content : Uint8Array|string = '';
 	if 		(dataType === 'base64') {content = base64ToArrayBuffer(data);}
 	else if (dataType  === 'blob')   {content = data;}
 	
- 	const blob = new Blob([content], { type: outputType });
+ 	const blob = new Blob([content], {type: mimeType});
  	const url = window.URL.createObjectURL(blob);
 	
 	print_(url).then(()=>
