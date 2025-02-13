@@ -11,7 +11,7 @@ Supports CJS, ES6 and TypeScript.
 ## Installation
 
 ```bash
-npm i 
+npm i @dpsys/js-utils 
 ```
 
 ## Example Usage

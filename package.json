@@ -1,6 +1,6 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Handy functions for JS development",
   "author": "David Petrásek",
   "license": "ISC",
