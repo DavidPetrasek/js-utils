@@ -107,7 +107,6 @@
 
   "devDependencies": {
     "@vitest/ui": "^3.0.5",
-    "ts-migrate": "^0.1.35",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
