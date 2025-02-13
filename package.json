@@ -1,6 +1,6 @@
 {
   "name": "@dpsys/js-utils",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Handy functions for JS development",
   "author": "David Petrásek",
   "license": "ISC",
@@ -9,9 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/DavidPetrasek/js-utils.git"
   },
-  "bugs": {
-    "url": "https://github.com/DavidPetrasek/js-utils/issues"
-  },
+  "bugs": "https://github.com/DavidPetrasek/js-utils/issues",
 
 
   "exports": {
