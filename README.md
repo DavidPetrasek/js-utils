@@ -66,6 +66,9 @@ cLog('myVar', myVar);
 - `getOffset(el)`: Gets element's offset relative to document
 - `elCreate(tagName, attrs, innerHTML)`: Creates HTML element with attributes and inner HTML
 - `isOverflown(el, heightTolerance, widthTolerance)`: Checks if element content is overflowing
+- `isScrollableX(el)`: Checks if element is scrollable horizontally
+- `isScrollableY(el)`: Checks if element is scrollable vertically
+- `isScrollableXY(el)`: Checks if element is scrollable horizontally and vertically
 - `getPositionAmongSiblings(element)`: Gets element's position among its siblings
 - `htmlToElements(html, elementNodesOnly)`: Converts HTML string to elements/nodes
 - `insertNodes(nodes, referenceElement, after)`: Inserts nodes (or nodes created from provided string) before/after the reference element

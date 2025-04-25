@@ -36,7 +36,7 @@ export function elCreate(tagName : string, attrs : object = {}, innerHTML : stri
 	return el;
 }
 
-export function isOverflown (el : HTMLElement, heightTolerance : number = 0, widthTolerance : number = 0) : boolean
+export function isOverflown(el : HTMLElement, heightTolerance : number = 0, widthTolerance : number = 0) : boolean
 {	
 	if (el === document.body)
 	{
@@ -46,6 +46,27 @@ export function isOverflown (el : HTMLElement, heightTolerance : number = 0, wid
 	{
 		return (el.scrollHeight > (el.clientHeight + heightTolerance) || el.scrollWidth > (el.clientWidth + widthTolerance));
 	}
+}
+
+export function isScrollableY(el : HTMLElement) : boolean
+{
+    const overflowYStyle = window.getComputedStyle(el).overflowY;
+    const isOverflowHidden = overflowYStyle.indexOf('hidden') !== -1;
+
+    return el.scrollHeight > el.clientHeight && !isOverflowHidden;
+}
+
+export function isScrollableX(el : HTMLElement) : boolean
+{
+    const overflowXStyle = window.getComputedStyle(el).overflowX;
+    const isOverflowHidden = overflowXStyle.indexOf('hidden') !== -1;
+
+    return el.scrollWidth > el.clientWidth && !isOverflowHidden;
+}
+
+export function isScrollableXY(el : HTMLElement) : boolean
+{
+    return isScrollableY(el) && isScrollableX(el);
 }
 
 export function getPositionAmongSiblings (element : HTMLElement) : number
