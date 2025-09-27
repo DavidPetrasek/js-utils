@@ -1,7 +1,8 @@
 {
   "name": "@dpsys/js-utils",
   "version": "2.1.0",
-  "description": "Handy functions for JS development",
+  "description": "Set of utilities for JS development",
+  "keywords": ["utilities", "array", "element", "function", "file", "form", "callback", "string"],
   "author": "David Petrásek",
   "license": "ISC",
   "repository": {
