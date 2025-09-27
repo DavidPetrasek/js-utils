@@ -20,7 +20,7 @@ let myVar = 'Hello World';
 cLog('myVar', myVar);
 ```
 
-## List of Functions
+## Complete list
 
 ### Array
 - `arrayMoveItem(arr, fromIndex, toIndex)`: Moves an item within an array from one index to another, returning the modified array.
