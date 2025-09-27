@@ -7,7 +7,7 @@ export default defineConfig({
     'src/element/util.ts',
     'src/array.ts',
     'src/file.ts',
-    'src/function.ts',
+    'src/callback.ts',
     'src/is.ts',
     'src/misc.ts',
     'src/string.ts',

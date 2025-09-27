@@ -33,8 +33,9 @@ cLog('myVar', myVar);
 - `print(data, dataType, mimeType)`: Invokes system print dialog ready to print provided data (base64 or blob)
 - `fileExists(url)`: Checks if file exists at given URL
 
-### Function
+### Callback
 - `debounce(callback, delayMs)`: Delay function execution
+- `domReady(callback)`: Executes callback when DOM is ready
 
 ### Is
 - `isStrictMode()`: Detects if code is running in strict mode

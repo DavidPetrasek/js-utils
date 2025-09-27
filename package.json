@@ -50,14 +50,14 @@
         "default": "./dist/file.js"
       }
     },
-    "./func": {
+    "./clb": {
       "import": {
-        "types": "./dist/function.d.mts",
-        "default": "./dist/function.mjs"
+        "types": "./dist/callback.d.mts",
+        "default": "./dist/callback.mjs"
       },
       "require": {
-        "types": "./dist/function.d.ts",
-        "default": "./dist/function.js"
+        "types": "./dist/callback.d.ts",
+        "default": "./dist/callback.js"
       }
     },
     "./is": {
