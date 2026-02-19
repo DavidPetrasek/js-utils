@@ -57,6 +57,7 @@ cLog('myVar', myVar);
 ### String
 - `stringTruncate(str, length, ellipsis)`: Truncates string to specified length with ellipsis
 - `stringToBool(str)`: Converts string to boolean
+- `stringWidth(text, font)`: Computes the width of the given text of given font in pixels 
 
 ### Form
 - `setDisabledStateChildInputs(parent, state)`: Sets disabled state for all form inputs within parent element
