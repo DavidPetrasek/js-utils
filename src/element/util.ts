@@ -22,6 +22,33 @@ export function getOffset (el : HTMLElement) : {top: number, left: number}
     return {top: _y, left: _x};
 }
 
+/**
+ * Gets the computed CSS property value of the given element.
+ */
+export function getCssStyle(el: HTMLElement, prop: string) : string
+{
+    return window.getComputedStyle(el, null).getPropertyValue(prop);
+}
+
+/**
+ * Gets the CSS font descriptor (e.g. "bold 14px verdana") of the given element.
+ */
+export function getCssFont(el: HTMLElement = document.body): string
+{
+  const fontWeight = getCssStyle(el, 'font-weight') || 'normal';
+  const fontSize = getCssStyle(el, 'font-size') || '16px';
+  const fontFamily = getCssStyle(el, 'font-family') || 'Times New Roman';
+  
+  return `${fontWeight} ${fontSize} ${fontFamily}`;
+}
+
+export function getPositionAmongSiblings(el : HTMLElement) : number
+{
+	var pos : number = 0;
+	while( (el = el.previousSibling as HTMLElement) != null ) {pos++;}		
+	return pos;
+}
+
 export function elCreate(tagName : string, attrs : object = {}, innerHTML : string = '') : HTMLElement
 {
 	var el = document.createElement(tagName);
@@ -69,30 +96,23 @@ export function isScrollableXY(el : HTMLElement) : boolean
     return isScrollableY(el) && isScrollableX(el);
 }
 
-export function getPositionAmongSiblings (element : HTMLElement) : number
-{
-	var pos : number = 0;
-	while( (element = element.previousSibling as HTMLElement) != null ) {pos++;}		
-	return pos;
-}
-
-export function htmlToElements(html : string, elementNodesOnly : boolean = true) : HTMLCollection|NodeList
+export function htmlToElements(html : string, elNodesOnly : boolean = true) : HTMLCollection|NodeList
 {
     var template = document.createElement('template');
     template.innerHTML = html;
 
-	if (elementNodesOnly) {return template.content.children;}
-	else 				  {return template.content.childNodes;}
+	if (elNodesOnly) {return template.content.children;}
+	else 		     {return template.content.childNodes;}
 }
 
 /**
  * @param nodes - HTML strings or node/s
- * @param referenceElement - querySelector or HTML element
+ * @param referenceEl - querySelector or HTML element
  */
-export function insertNodes (nodes : string|Node[]|Node, referenceElement : HTMLElement|string, after : boolean = false) : void
+export function insertNodes (nodes : string|Node[]|Node, referenceEl : HTMLElement|string, after : boolean = false) : void
 {
 	let refEl : HTMLElement|null =  null;
-	if (isString(referenceElement)) {refEl = document.querySelector(referenceElement as string);}
+	if (isString(referenceEl)) {refEl = document.querySelector(referenceEl as string);}
 	
 	let nodesArr : Node[] = [];
 	if (isString(nodes)) 
@@ -110,11 +130,10 @@ export function insertNodes (nodes : string|Node[]|Node, referenceElement : HTML
 	});
 }
 
-export function switchElements (element1 : HTMLElement, element2 : HTMLElement) : void
+export function switchElements(el1 : HTMLElement, el2 : HTMLElement) : void
 {
-    const afterNode2 = element2.nextElementSibling;
-    const parent = element2.parentNode;
-    element1.replaceWith(element2);
-    parent?.insertBefore(element1, afterNode2);
+    const afterNode2 = el2.nextElementSibling;
+    const parent = el2.parentNode;
+    el1.replaceWith(el2);
+    parent?.insertBefore(el1, afterNode2);
 }
-
