@@ -48,6 +48,9 @@ cLog('myVar', myVar);
 ### Misc
 - `emToPx(ems)`: Converts em units to pixels
 - `pxToEm(px)`: Converts pixels to em units
+- `remToPx(rems)`: Converts rem units to pixels
+- `pxToRem(px)`: Converts pixels to rem units
+- `getFontSize(element)`: Gets font size of element in pixels
 - `cLog(valueDescription, value, fn)`: Enhanced console.log with function name support
 - `cErr(valueDescription, value, fn)`: Enhanced console.error with function name support
 - `redirect(url, afterMs)`: Redirects to URL after specified milliseconds

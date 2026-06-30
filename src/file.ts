@@ -1,5 +1,5 @@
 
-export function blobToBase64 (blob : Blob) : Promise<string>
+export function blobToBase64(blob : Blob) : Promise<string>
 {
     return new Promise((resolve, reject) =>
     {
@@ -15,7 +15,7 @@ export function blobToBase64 (blob : Blob) : Promise<string>
     })
 }
 
-export async function downloadStream (data : string, headers : Headers) : Promise<void>
+export async function downloadStream(data : string, headers : Headers) : Promise<void>
 {																
     var contentDisposition = headers.get('content-disposition');
 	var filename = contentDispositionGetFileName(contentDisposition ?? '');
@@ -38,7 +38,7 @@ export async function downloadStream (data : string, headers : Headers) : Promis
     window.URL.revokeObjectURL(blobUrl);
 }
 
-function contentDispositionGetFileName (contentDisposition : string) : string
+function contentDispositionGetFileName(contentDisposition : string) : string
 {
     var filename = '';
 
@@ -55,22 +55,23 @@ function contentDispositionGetFileName (contentDisposition : string) : string
     return filename;
 }
 
-export function print (data : string, dataType : 'base64'|'blob', mimeType : string = '') : void
-{		
-    var content : Uint8Array|string = '';
-	if 		(dataType === 'base64') {content = base64ToArrayBuffer(data);}
-	else if (dataType  === 'blob')   {content = data;}
-	
- 	const blob = new Blob([content], {type: mimeType});
- 	const url = window.URL.createObjectURL(blob);
-	
-	print_(url).then(()=>
-	{
-		window.URL.revokeObjectURL(url);
-	});
+export function print(data : string, dataType : 'base64'|'blob', mimeType : string = '') : void
+{       
+    let content : Uint8Array | string = '';
+    if      (dataType === 'base64') { content = base64ToArrayBuffer(data); }
+    else if (dataType === 'blob')   { content = data; }
+    
+    // Using 'as any' bypasses the rigid SharedArrayBuffer compiler mismatch
+    const blob = new Blob([content as any], {type: mimeType});
+    const url = window.URL.createObjectURL(blob);
+    
+    print_(url).then(()=>
+    {
+        window.URL.revokeObjectURL(url);
+    });
 }
 
-function print_ (relativeUrl : string) : Promise<boolean>
+function print_(relativeUrl : string) : Promise<boolean>
 {		
 	return new Promise( (resolve) =>
 	{
@@ -85,7 +86,7 @@ function print_ (relativeUrl : string) : Promise<boolean>
     });   
 }
 
-export function base64ToArrayBuffer (data : string) : Uint8Array
+export function base64ToArrayBuffer(data : string) : Uint8Array
 {
     const bString = atob(data);
     const bLength = bString.length;
@@ -97,7 +98,7 @@ export function base64ToArrayBuffer (data : string) : Uint8Array
     return bytes;
 }
 
-export async function fileExists (url : string) : Promise<boolean>
+export async function fileExists(url : string) : Promise<boolean>
 {	
 	return (await fetch(url, {method: "HEAD"})).ok;
 }

@@ -1,33 +1,48 @@
 
 
-export function emToPx (ems : number) : number
+export function getFontSize(element: HTMLElement): number 
 {
-	var bodyStyle = window.getComputedStyle(document.body, null).getPropertyValue('font-size');
-	var bodyFontSize = parseFloat(bodyStyle);
-		
-	return ems * bodyFontSize;
+    const style = window.getComputedStyle(element, null).getPropertyValue('font-size');
+    return parseFloat(style);
 }
 
-export function pxToEm (px : number) : number
+export function emToPx(ems: number): number { return ems * getFontSize(document.body); }
+export function pxToEm(px: number): number { return px / getFontSize(document.body); }
+
+export function remToPx(rems: number): number { return rems * getFontSize(document.documentElement); }
+export function pxToRem(px: number): number { return px / getFontSize(document.documentElement); }
+
+function formatLogMessage(description: string, fn?: Function): string 
 {
-	var bodyStyle = window.getComputedStyle(document.body, null).getPropertyValue('font-size');
-	var bodyFontSize = parseFloat(bodyStyle);
-		
-	return px / bodyFontSize;
+    return fn?.name ? `${fn.name} :: ${description}` : description;
 }
 
-export function cLog (valueDescription : string, value : unknown = null, fn : any = null) : void
+export function cLog(valueDescription: string, value?: unknown, fn?: Function): void 
 {
-	if (fn !== null) {valueDescription = fn.name+' :: '+valueDescription;}
-	
-	console.log (valueDescription, value);
+    const message = formatLogMessage(valueDescription, fn);
+    
+    if (value !== undefined) 
+    {
+        console.log(message, value);
+    } 
+    else 
+    {
+        console.log(message);
+    }
 }
 
-export function cErr(valueDescription : string, value : unknown = null, fn : any = null) : void
+export function cErr(valueDescription: string, value?: unknown, fn?: Function): void 
 {
-	if (fn !== null) {valueDescription = fn.name+' :: '+valueDescription;}
-	
-	console.error(valueDescription, value);
+    const message = formatLogMessage(valueDescription, fn);
+    
+    if (value !== undefined) 
+    {
+        console.error(message, value);
+    } 
+    else 
+    {
+        console.error(message);
+    }
 }
 
 export async function redirect (url : string = '', afterMs : number = 0) : Promise<void>
@@ -45,14 +60,12 @@ export function getTimestamp (format : 'seconds'|'milliseconds' = 'seconds') : n
 {
 	if (format === 'seconds')
 	{
-		return Math.floor(Date.now() / 1000);	
+		return Math.floor(Date.now() / 1000);
 	}
-	if (format === 'milliseconds')
+	else if (format === 'milliseconds')
 	{
 		return Date.now();	
 	}
 
 	return 0;
 }
-
-
