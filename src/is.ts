@@ -1,37 +1,40 @@
-export function isStrictMode () : boolean
-{
-	return (function(this: unknown) { return !this; })();
+// 1. Runtime Deprecation Warning
+if (typeof console !== 'undefined' && console.warn) {
+  console.warn(
+    '[@dpsys/js-utils] WARNING: The "@dpsys/js-utils/is" entry point is deprecated and will be removed in v3.0.0. ' +
+    'Please import these functions from their new specific subpaths (e.g., "@dpsys/js-utils/str", "@dpsys/js-utils/misc").'
+  );
 }
 
-export function isEmpty (val : []|string|object) : boolean
-{
-	if (val instanceof Object) 	{return isObjectEmpty(val);}
-	else 						{return isArrayStringEmpty(val);}
-}
+// Import the actual implementations internally
+import { 
+  isStrictMode as _isStrictMode, 
+  isEmpty as _isEmpty, 
+  isArrayStringEmpty as _isArrayStringEmpty, 
+  isObjectEmpty as _isObjectEmpty, 
+  isIterable as _isIterable,
+  isTouchDevice as _isTouchDevice 
+} from './misc';
+import { isString as _isString } from './string';
 
-export function isArrayStringEmpty (arr : []|string) : boolean
-{
-	return arr.length === 0;
-}
+// Re-export individually with dedicated JSDoc tags
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isStrictMode = _isStrictMode;
 
-export function isObjectEmpty (obj : object) : boolean
-{
-	return obj
-		&& Object.keys(obj).length === 0
-		&& Object.getPrototypeOf(obj) === Object.prototype;
-}
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isEmpty = _isEmpty;
 
-export function isIterable (val : unknown) : boolean
-{
-  return Symbol.iterator in Object(val);
-}
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isArrayStringEmpty = _isArrayStringEmpty;
 
-export function isString (val : unknown) : boolean
-{
-  return (typeof val === 'string' || val instanceof String);
-}
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isObjectEmpty = _isObjectEmpty;
 
-export function isTouchDevice () : boolean
-{
-	return window.matchMedia("(pointer: coarse)").matches;
-}
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isIterable = _isIterable;
+
+/** @deprecated Move to "@dpsys/js-utils/misc" */
+export const isTouchDevice = _isTouchDevice;
+
+/** @deprecated Move to "@dpsys/js-utils/str" */
+export const isString = _isString;

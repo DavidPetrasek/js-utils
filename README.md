@@ -27,40 +27,37 @@ cLog('myVar', myVar);
 - `arrayMoveItem(arr, fromIndex, toIndex)`: Moves an item within an array from one index to another, returning the modified array.
 
 ### File
+- `print(data, dataType, mimeType)`: Invokes system print dialog ready to print provided data (base64 or blob)
 - `blobToBase64(blob)`: Converts a Blob/File to base64 string
 - `downloadStream(data, headers)`: Downloads data stream with proper filename from content-disposition
-- `print(data, dataType, mimeType)`: Invokes system print dialog ready to print provided data (base64 or blob)
 - `fileExists(url)`: Checks if file exists at given URL
 
 ### Callback
 - `debounce(callback, delayMs)`: Delay function execution
 - `domReady(callback)`: Executes callback when DOM is ready
 
-### Is
-- `isStrictMode()`: Detects if code is running in strict mode
-- `isEmpty(val)`: Checks if array/string/object is empty
-- `isArrayStringEmpty(arr)`: Checks if array or string is empty
-- `isObjectEmpty(obj)`: Checks if object is empty
-- `isIterable(val)`: Checks if variable is iterable
-- `isString(val)`: Checks if variable is string
-- `isTouchDevice()`: Detects if device has touch capabilities
-
 ### Misc
 - `emToPx(ems)`: Converts em units to pixels
 - `pxToEm(px)`: Converts pixels to em units
 - `remToPx(rems)`: Converts rem units to pixels
 - `pxToRem(px)`: Converts pixels to rem units
-- `getFontSize(element)`: Gets font size of element in pixels
 - `cLog(valueDescription, value, fn)`: Enhanced console.log with function name support
 - `cErr(valueDescription, value, fn)`: Enhanced console.error with function name support
 - `redirect(url, afterMs)`: Redirects to URL after specified milliseconds
 - `pause(ms)`: Creates a promise that resolves after specified milliseconds
 - `getTimestamp(format)`: Gets current timestamp in seconds or milliseconds
+- `isTouchDevice()`: Detects if device has touch capabilities
+- `isStrictMode()`: Detects if code is running in strict mode
+- `isEmpty(val)`: Checks if array/string/object is empty
+- `isArrayStringEmpty(arr)`: Checks if array or string is empty
+- `isObjectEmpty(obj)`: Checks if object is empty
+- `isIterable(val)`: Checks if variable is iterable
 
 ### String
 - `stringTruncate(str, length, ellipsis)`: Truncates string to specified length with ellipsis
 - `stringToBool(str)`: Converts string to boolean
-- `stringWidth(text, font)`: Computes the width of the given text of given font in pixels 
+- `stringWidth(text, font)`: Computes the width of the given text of given font in pixels
+- `isString(val)`: Checks if variable is string
 
 ### Form
 - `setDisabledStateChildInputs(parent, state)`: Sets disabled state for all form inputs within parent element
@@ -79,3 +76,4 @@ cLog('myVar', myVar);
 - `htmlToElements(html, elNodesOnly)`: Converts HTML string to elements/nodes
 - `insertNodes(nodes, referenceEl, after)`: Inserts nodes (or nodes created from provided string) before/after the reference element
 - `switchElements(el1, el2)`: Swaps positions of two DOM elements
+- `getFontSize(el)`: Gets font size of element in pixels

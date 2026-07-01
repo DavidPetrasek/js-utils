@@ -1,10 +1,7 @@
+import { getFontSize } from "./element/util";
 
-
-export function getFontSize(element: HTMLElement): number 
-{
-    const style = window.getComputedStyle(element, null).getPropertyValue('font-size');
-    return parseFloat(style);
-}
+/** @deprecated Move to "@dpsys/js-utils/el" */
+export { getFontSize } from "./element/util";
 
 export function emToPx(ems: number): number { return ems * getFontSize(document.body); }
 export function pxToEm(px: number): number { return px / getFontSize(document.body); }
@@ -45,7 +42,7 @@ export function cErr(valueDescription: string, value?: unknown, fn?: Function): 
     }
 }
 
-export async function redirect (url : string = '', afterMs : number = 0) : Promise<void>
+export async function redirect(url : string = '', afterMs : number = 0) : Promise<void>
 {														
 	await pause(afterMs);
 	
@@ -54,9 +51,9 @@ export async function redirect (url : string = '', afterMs : number = 0) : Promi
 }
 
 
-export function pause (ms : number) : Promise<void> { return new Promise(res => setTimeout(res, ms)); }
+export function pause(ms : number) : Promise<void> { return new Promise(res => setTimeout(res, ms)); }
 
-export function getTimestamp (format : 'seconds'|'milliseconds' = 'seconds') : number
+export function getTimestamp(format : 'seconds'|'milliseconds' = 'seconds') : number
 {
 	if (format === 'seconds')
 	{
@@ -68,4 +65,38 @@ export function getTimestamp (format : 'seconds'|'milliseconds' = 'seconds') : n
 	}
 
 	return 0;
+}
+
+export function isTouchDevice() : boolean
+{
+	return window.matchMedia("(pointer: coarse)").matches;
+}
+
+export function isStrictMode() : boolean
+{
+	return (function(this: unknown) { return !this; })();
+}
+
+export function isEmpty(val : unknown[]|string|object) : boolean
+{
+    if (Array.isArray(val))      { return isArrayStringEmpty(val); }
+    if (val instanceof Object)   { return isObjectEmpty(val); }
+    return isArrayStringEmpty(val);
+}
+
+export function isArrayStringEmpty(arr : unknown[]|string) : boolean
+{
+	return arr.length === 0;
+}
+
+export function isObjectEmpty(obj : object) : boolean
+{
+	return obj
+		&& Object.keys(obj).length === 0
+		&& Object.getPrototypeOf(obj) === Object.prototype;
+}
+
+export function isIterable(val : unknown) : boolean
+{
+  return Symbol.iterator in Object(val);
 }

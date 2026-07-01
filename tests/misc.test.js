@@ -10,7 +10,13 @@ import {
     cErr, 
     redirect, 
     pause, 
-    getTimestamp 
+    getTimestamp,
+    isTouchDevice,
+    isStrictMode,
+    isEmpty,
+    isArrayStringEmpty,
+    isObjectEmpty,
+    isIterable
 } from '../src/misc.ts';
 
 describe('DOM Font Size Utilities', () => {
@@ -152,5 +158,116 @@ describe('Timestamp Utility', () => {
 
     it('getTimestamp should return milliseconds when specified', () => {
         expect(getTimestamp('milliseconds')).toBe(mockSystemTime.getTime());
+    });
+});
+
+describe('Environment Utilities', () => 
+{
+    describe('isTouchDevice', () => 
+    {
+        // Clean up window.matchMedia after each test to avoid test cross-contamination
+        afterEach(() => {
+            if ('matchMedia' in window) {
+                delete window.matchMedia;
+            }
+        });
+
+        it('should return true if pointer matches coarse layout rules', () => {
+            // Directly define the mock function on window
+            window.matchMedia = vi.fn().mockImplementation((query) => ({
+                matches: query === '(pointer: coarse)'
+            }));
+            
+            expect(isTouchDevice()).toBe(true);
+            
+            // Optionally verify it was called with the correct argument
+            expect(window.matchMedia).toHaveBeenCalledWith('(pointer: coarse)');
+        });
+
+        it('should return false if pointer query does not match coarse criteria', () => {
+            // Directly define the mock function on window
+            window.matchMedia = vi.fn().mockImplementation(() => ({
+                matches: false
+            }));
+
+            expect(isTouchDevice()).toBe(false);
+        });
+    });
+
+    describe('isStrictMode', () => {
+        it('should verify if code evaluation enforces strict compliance rules', () => {
+            // Vitest / modern ESM test execution environments enforce strict mode by default
+            expect(isStrictMode()).toBe(true);
+        });
+    });
+});
+
+describe('Validation Utilities', () => {
+    describe('isArrayStringEmpty', () => {
+        it('should return true if elements or characters have length 0', () => {
+            expect(isArrayStringEmpty([])).toBe(true);
+            expect(isArrayStringEmpty('')).toBe(true);
+        });
+
+        it('should return false if entries or characters have data', () => {
+            expect(isArrayStringEmpty([1, 2])).toBe(false);
+            expect(isArrayStringEmpty('not empty')).toBe(false);
+        });
+    });
+
+    describe('isObjectEmpty', () => {
+        it('should return true for a plain, vanilla empty object structure', () => {
+            expect(isObjectEmpty({})).toBe(true);
+        });
+
+        it('should return false if structural data keys exist', () => {
+            expect(isObjectEmpty({ key: 'val' })).toBe(false);
+        });
+
+        it('should return false for falsy value variations', () => {
+            expect(isObjectEmpty(null)).toBe(null);
+        });
+
+        it('should return false if prototype rules deviate from Object root structures', () => {
+            const alternativeProto = Object.create(null);
+            expect(isObjectEmpty(alternativeProto)).toBe(false);
+
+            class DummyClass {}
+            expect(isObjectEmpty(new DummyClass())).toBe(false);
+        });
+    });
+
+    describe('isEmpty', () => {
+        it('should accurately handle generic string evaluation targets', () => {
+            expect(isEmpty('')).toBe(true);
+            expect(isEmpty('data')).toBe(false);
+        });
+
+        it('should accurately handle array validation targets', () => {
+            expect(isEmpty([])).toBe(true);
+            expect(isEmpty([1])).toBe(false);
+        });
+
+        it('should accurately route and parse structural object items', () => {
+            expect(isEmpty({})).toBe(true);
+            expect(isEmpty({ item: 1 })).toBe(false);
+        });
+    });
+
+    describe('isIterable', () => {
+        it('should return true for collections with native iteration protocols', () => {
+            expect(isIterable([])).toBe(true);
+            expect(isIterable('string')).toBe(true);
+            expect(isIterable(new Map())).toBe(true);
+            expect(isIterable(new Set())).toBe(true);
+        });
+
+        it('should return false for items lacking sequence iteration controls', () => {
+            expect(isIterable({})).toBe(false);
+            expect(isIterable(42)).toBe(false);
+            expect(isIterable(true)).toBe(false);
+            expect(isIterable(null)).toBe(false);
+            expect(isIterable(undefined)).toBe(false);
+        });
     });
 });

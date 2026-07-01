@@ -1,4 +1,5 @@
-import { isIterable, isString } from '../is';
+import { isString } from '../string';
+import { isIterable } from '../misc';
 
 
 /**
@@ -111,23 +112,36 @@ export function htmlToElements(html : string, elNodesOnly : boolean = true) : HT
  */
 export function insertNodes (nodes : string|Node[]|Node, referenceEl : HTMLElement|string, after : boolean = false) : void
 {
-	let refEl : HTMLElement|null =  null;
-	if (isString(referenceEl)) {refEl = document.querySelector(referenceEl as string);}
-	
-	let nodesArr : Node[] = [];
-	if (isString(nodes)) 
-	{
-		let elemsNodeList : NodeList = htmlToElements(nodes as string, false) as NodeList;		
-		nodesArr = Array.from(elemsNodeList);
-	}
-	else if ( !isIterable(nodes) ) {nodesArr = [nodes as Node];}
-	
-	if (after) 	{refEl = refEl?.nextSibling as HTMLElement;}
-	
-	nodesArr.forEach( (n : Node) =>
-	{
-		refEl?.parentNode?.insertBefore(n, refEl);
-	});
+    let refEl : HTMLElement|null = null;
+    if (isString(referenceEl)) {
+        refEl = document.querySelector(referenceEl as string);
+    } else {
+        refEl = referenceEl as HTMLElement;
+    }
+    
+    if (!refEl) return;
+    const parent = refEl.parentNode; // Capture parent context early
+    if (!parent) return;             // Safe breakout if element is unmounted
+
+    let nodesArr : Node[] = [];
+    if (isString(nodes)) 
+    {
+        let elemsNodeList : NodeList = htmlToElements(nodes as string, false) as NodeList;		
+        nodesArr = Array.from(elemsNodeList);
+    }
+    else if (!isIterable(nodes)) { nodesArr = [nodes as Node]; }
+    
+    // Keep track of target placement without losing the parent context
+    let targetAnchor: Node|null = refEl;
+    if (after) 
+    {
+        targetAnchor = refEl.nextSibling; // If null, insertBefore safely appends to the end
+    }
+    
+    nodesArr.forEach((n : Node) =>
+    {
+        parent.insertBefore(n, targetAnchor);
+    });
 }
 
 export function switchElements(el1 : HTMLElement, el2 : HTMLElement) : void
@@ -136,4 +150,10 @@ export function switchElements(el1 : HTMLElement, el2 : HTMLElement) : void
     const parent = el2.parentNode;
     el1.replaceWith(el2);
     parent?.insertBefore(el1, afterNode2);
+}
+
+export function getFontSize(el: HTMLElement): number 
+{
+    const style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+    return parseFloat(style);
 }

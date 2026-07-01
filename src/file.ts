@@ -1,3 +1,33 @@
+export function print(data : string, dataType : 'base64'|'blob', mimeType : string = '') : void
+{       
+    let content : Uint8Array | string = '';
+    if      (dataType === 'base64') { content = base64ToArrayBuffer(data); }
+    else if (dataType === 'blob')   { content = data; }
+    
+    // Using 'as any' bypasses the rigid SharedArrayBuffer compiler mismatch
+    const blob = new Blob([content as any], {type: mimeType});
+    const url = window.URL.createObjectURL(blob);
+    
+    print_(url).then(()=>
+    {
+        window.URL.revokeObjectURL(url);
+    });
+}
+
+function print_(relativeUrl : string) : Promise<boolean>
+{		
+	return new Promise( (resolve) =>
+	{
+		let pdfFrame = document.body.appendChild(document.createElement('iframe'));
+	    pdfFrame.style.display = 'none';
+	    pdfFrame.onload = ( () =>
+	    {
+			void pdfFrame.contentWindow?.print();
+			resolve(true);
+		});
+	    pdfFrame.src = relativeUrl; 
+    });   
+}
 
 export function blobToBase64(blob : Blob) : Promise<string>
 {
@@ -53,37 +83,6 @@ function contentDispositionGetFileName(contentDisposition : string) : string
     }
     
     return filename;
-}
-
-export function print(data : string, dataType : 'base64'|'blob', mimeType : string = '') : void
-{       
-    let content : Uint8Array | string = '';
-    if      (dataType === 'base64') { content = base64ToArrayBuffer(data); }
-    else if (dataType === 'blob')   { content = data; }
-    
-    // Using 'as any' bypasses the rigid SharedArrayBuffer compiler mismatch
-    const blob = new Blob([content as any], {type: mimeType});
-    const url = window.URL.createObjectURL(blob);
-    
-    print_(url).then(()=>
-    {
-        window.URL.revokeObjectURL(url);
-    });
-}
-
-function print_(relativeUrl : string) : Promise<boolean>
-{		
-	return new Promise( (resolve) =>
-	{
-		let pdfFrame = document.body.appendChild(document.createElement('iframe'));
-	    pdfFrame.style.display = 'none';
-	    pdfFrame.onload = ( () =>
-	    {
-			void pdfFrame.contentWindow?.print();
-			resolve(true);
-		});
-	    pdfFrame.src = relativeUrl; 
-    });   
 }
 
 export function base64ToArrayBuffer(data : string) : Uint8Array

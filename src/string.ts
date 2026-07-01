@@ -45,3 +45,8 @@ export function stringWidth(text: string, font: string): number
     const metrics = context.measureText(text);
     return metrics.width;
 }
+
+export function isString (val : unknown) : boolean
+{
+  return (typeof val === 'string' || val instanceof String);
+}
