@@ -45,27 +45,28 @@ export function blobToBase64(blob : Blob) : Promise<string>
     })
 }
 
-export async function downloadStream(data : string, headers : Headers) : Promise<void>
-{																
-    var contentDisposition = headers.get('content-disposition');
-	var filename = contentDispositionGetFileName(contentDisposition ?? '');
-    var mimeType = headers.get('content-type');
-	
-	// Create link
-	var blob = new Blob([data], { type: mimeType ?? '' });
-	
-    var link = document.createElement('a');
+/**
+ * @deprecated Asynchronous signature returning Promise<void> will become synchronous (returning void) in v3.0.0
+ */
+export async function downloadStream(data: string, headers: Headers) : Promise<void>
+{
+    const contentDisposition = headers.get('content-disposition');
+    const filename = contentDispositionGetFileName(contentDisposition ?? '');
+    const mimeType = headers.get('content-type') ?? 'application/octet-stream';
+
+    const blob = new Blob([data], { type: mimeType });
     const blobUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
     link.href = blobUrl;
     link.download = filename;
 
-	// Download
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
-    // clean up Url
-    window.URL.revokeObjectURL(blobUrl);
+
+    // Delay for safe memory release
+    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
 }
 
 function contentDispositionGetFileName(contentDisposition : string) : string

@@ -1,6 +1,6 @@
 import { getFontSize as _getFontSize } from "./element/util";
 
-/** @deprecated Move to "@dpsys/js-utils/el" */
+/** @deprecated Will move to "@dpsys/js-utils/el" in v3.0.0 */
 export const getFontSize = _getFontSize;
 
 export function emToPx(ems: number): number { return ems * getFontSize(document.body); }
@@ -42,12 +42,16 @@ export function cErr(valueDescription: string, value?: unknown, fn?: Function): 
     }
 }
 
+/**
+ * @deprecated Asynchronous signature returning Promise<void> will become synchronous (returning void) in v3.0.0
+ */
 export async function redirect(url : string = '', afterMs : number = 0) : Promise<void>
-{														
-	await pause(afterMs);
-	
-	if (url === '') {location.reload();}
-	else			{location.href = url;}
+{
+    setTimeout(() => 
+    {
+        if (url === '') {location.reload();}
+	    else			{location.href = url;}
+    }, afterMs);
 }
 
 

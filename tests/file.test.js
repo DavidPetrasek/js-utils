@@ -87,15 +87,28 @@ describe('File Utilities', () => {
         });
     });
 
-    describe('downloadStream', () => {
-        it('should generate a hidden link element, populate target filename, trigger download action, and clean up', async () => {
+    describe('downloadStream', () => 
+    {
+        beforeEach(() => 
+        {
+            vi.useFakeTimers();
+        });
+
+        afterEach(() => 
+        {
+            vi.useRealTimers();
+        });
+
+        it('should generate a hidden link element, populate target filename, trigger download action, and clean up', async () => 
+        {
             const appendSpy = vi.spyOn(document.body, 'appendChild');
             const removeSpy = vi.spyOn(document.body, 'removeChild');
             
             const mockLink = document.createElement('a');
             const clickSpy = vi.spyOn(mockLink, 'click').mockImplementation(() => {});
             
-            vi.spyOn(document, 'createElement').mockImplementation((tagName) => {
+            vi.spyOn(document, 'createElement').mockImplementation((tagName) => 
+            {
                 if (tagName === 'a') return mockLink;
                 return document.createElement(tagName);
             });
@@ -105,7 +118,10 @@ describe('File Utilities', () => {
                 'content-type': 'text/csv'
             });
 
-            await downloadStream('csv,data,payload', headers);
+            downloadStream('csv,data,payload', headers);
+
+            // Move all timers (e.g. setTimeout for revokeObjectURL)
+            vi.runAllTimers();
 
             expect(mockLink.download).toBe('report_2026.csv');
             expect(mockLink.href).toBe('blob:mock-url');
