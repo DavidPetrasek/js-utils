@@ -1,7 +1,7 @@
-import { getFontSize } from "./element/util";
+import { getFontSize as _getFontSize } from "./element/util";
 
 /** @deprecated Move to "@dpsys/js-utils/el" */
-export { getFontSize } from "./element/util";
+export const getFontSize = _getFontSize;
 
 export function emToPx(ems: number): number { return ems * getFontSize(document.body); }
 export function pxToEm(px: number): number { return px / getFontSize(document.body); }
